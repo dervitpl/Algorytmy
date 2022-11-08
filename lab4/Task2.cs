@@ -64,9 +64,9 @@ namespace task_2
             return maxGold;
         }
 
-        static public void Main()
+        static  void Main()
         {
-
+            //task1
             int[,] gold = new int[,] { { 10, 33, 13, 15 },
                                    { 22, 21, 4, 1 },
                                    { 5, 0, 2, 3 },
@@ -74,7 +74,13 @@ namespace task_2
 
 
             int m = 4, n = 4;
-            Console.Write(getMaxGold(gold, n, m));
+            Console.WriteLine(getMaxGold(gold, n, m));
+            //task2
+            int[] a = new int[] { -2, -1, 10, 10000, -1 };
+            int y = 5;
+
+            Console.WriteLine(MinProduct(a, y));
+
         }
 
         /// <summary>
@@ -94,9 +100,55 @@ namespace task_2
         /// </summary>
         /// <param name="arr">tablica liczb całkowitych</param>
         /// <returns>najmniejszy iloczyn tablicy wejściowej arr</returns>
-        static public int MinProduct(int[] arr)
+        static int MinProduct(int[] a, int y)
         {
-            throw new NotImplementedException();
+            if (y == 1)
+                return a[0];
+            int maxujemny = int.MinValue;
+            int maxdodatni = int.MinValue;
+            int licz_ujemny = 0, licz_zero = 0;
+            int iloczyn = 1;
+
+            for (int i = 0; i < y; i++)
+            {
+                // dla zera
+                if (a[i] == 0)
+                {
+                    licz_zero++;
+                    continue;
+                }
+
+                // liczy negatywne i wyznacza najmniejszy
+                if (a[i] < 0)
+                {
+                    licz_ujemny++;
+                    maxujemny = Math.Max(maxujemny, a[i]);
+                }
+
+                // najmniejszy dodatni
+                if (a[i] > 0 && a[i] < maxdodatni)
+                {
+                    maxdodatni = a[i];
+                }
+
+                iloczyn *= a[i];
+            }
+
+ 
+            if (licz_zero == y
+                || (licz_ujemny == 0 && licz_zero > 0))
+                return 0;
+
+            if (licz_ujemny == 0)
+                return maxdodatni;
+
+
+            if (licz_ujemny % 2 == 0 && licz_ujemny != 0)
+            {
+                iloczyn = iloczyn / maxujemny;
+            }
+
+            return iloczyn;
         }
     }
 }
