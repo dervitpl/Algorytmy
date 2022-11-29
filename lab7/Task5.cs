@@ -1,15 +1,16 @@
-﻿using System.Runtime.ExceptionServices;
+﻿//Kacper Mucha
+using System;
+using System.Collections.Generic;
+
 
 namespace task_5;
-// Kacper Mucha
+
 public class Task5
 {
     public static void Main(string[] args)
     {
-        
         StringHexPositionSort s = new StringHexPositionSort();
-        string[] arr = {"AF3", "120", "236", "11A", "23", "5", "FFFFF"};
-        
+        string[] arr = { "AF3", "120", "236", "11A", "23", "5", "FFFFF" };
         try
         {
             s.Sort(arr, 5);
@@ -33,7 +34,6 @@ public class Task5
         {
             Console.WriteLine("Test failed");
         }
-        Console.WriteLine(arr[0]);
     }
     //Cwiczenie 1
     //Zaimplementuj klasę do sortowania pozycyjnego liczb szesnastkowych zapisanych w łańcuchach 
@@ -46,19 +46,21 @@ public class Task5
     //- łańcuchy mają różną długość 
     //Możesz wzorować się na gotowym algorytmie w instrukcji nr 5
 
-    public class StringHexPositionSort
+    class StringHexPositionSort
     {
-        //Zadeklaruj tablicę kolejek dla każdej cyfry szesnastkowej
-        //Każda kolejka jest typu string lub char
-        //Wykorzystaj klasę Queue<string> lub Queue<char>
-        //Możesz zadeklarować tablicę 16 kolejek Queueu<string>[] lub słownik Dictionary<String, Queue<String>>
-        //w którym kluczem jest łańcuch z jednym znakiem - cyfrą szesnastkową.
+        //Zadeklaruj tablicę kolejek dla każdej cyfry szestnastkowej
+        //Każda kolejka jest typu string
+        private Queue<string>[] _queueArray = new Queue<string>[16];
 
-        private Queue<string>[] _queueArray = new Queue<string>[10];
+        public Queue<string>[] getQueue
+        {
+            get => _queueArray;
+        }
+
         private void Init()
         {
-            //zaimplementuj zainicjowanie tablicy lub słownika kolejek
-            for (int i = 0; i < 7; i++)
+            //zaimplementuj zainicjowanie tablicy kolejek
+            for (int i = 0; i < 16; i++)
             {
                 if (_queueArray[i] == null)
                 {
@@ -68,51 +70,37 @@ public class Task5
                 {
                     _queueArray[i].Clear();
                 }
-
             }
-            
         }
 
         private void Dequeue(string[] arr)
         {
-            //zaimplementuje pobieranie z kolejek łańcuchów hex i umieszczanie ich w tablicy arr
-            //kolejki opróżniamy zaczynając od kolejki z cyfrą 0 a kończąc na F 
             int index = 0;
-            for (int i = 0; i < 10; i++)
-            {   
-                  
+            for (int i = 0; i < 16; i++)
+            {
                 while (_queueArray[i].Count > 0)
                 {
-                    arr[index++]= _queueArray[i].Dequeue();
+                    arr[index++] = _queueArray[i].Dequeue();
                 }
-
             }
-           
-            
         }
 
-        //Zaimplementuj metodę pomocniczą, aby zwracała liczbę równą cyfrze szesnastkowej na podanej pozycji (position) w łańcuchu str
+        //Zaimplementuj metodę, aby zwracała liczbę równą cyfrze szesnastkowej na podanej pozycji (position) w łańcuchu str
         //Pozycja jest numerowana od prawej do lewej
         // np. dla łańcucha "AB12"
         // cyfra na pozycji 0 to 2,
         // cyfra na pozycji 2 to 11,
         // cyfra na pozycji 8 to 0
-        //Stosowanie tej metody uprości definicję metody Enqueue
         private int ExtractDigit(string str, uint position)
         {
-            String strin = String.Format("{0}", str);
-            if (strin.Length <= position - 1)
+            str = string.Format("{0}", str);
+            if (str.Length <= position - 1)
             {
                 return 0;
             }
-            return int.Parse(strin[(int)(strin.Length - position)] + "");
+            return Convert.ToInt32(str[(int)(str.Length - position)] + "", 16);
         }
-        
-        /// <summary>
-        ///Zaimplementuj umieszczanie cyfr łacuchów hex z arr w kolejce odpowiadającej pozycji tej cyfry 
-        /// </summary>
-        /// <param name="arr">tablica sortowanych łańcuchów hex</param>
-        /// <param name="position">pozycja cyfry hex wzlgędem, której sortujemy łańcuchy</param>
+        //zaimplementuj umieszczanie liczb łacuchów z liczbami hex w kolejce odpowiadającej cyfrze na podanej pozycji
         private void Enqueue(string[] arr, uint position)
         {
             for (int i = 0; i < arr.Length; i++)
@@ -120,9 +108,7 @@ public class Task5
                 int digit = ExtractDigit(arr[i], position);
                 _queueArray[digit].Enqueue(arr[i]);
             }
-
         }
-
         //Tej metody nie zmieniaj!!!
         public void Sort(string[] arr, int d)
         {
@@ -132,6 +118,7 @@ public class Task5
                 Enqueue(arr, position);
                 Dequeue(arr);
             }
+
         }
     }
 }
