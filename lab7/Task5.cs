@@ -1,10 +1,7 @@
 ﻿//Kacper Mucha
 using System;
 using System.Collections.Generic;
-
-
 namespace task_5;
-
 public class Task5
 {
     public static void Main(string[] args)
