@@ -1,3 +1,4 @@
+
 ﻿//kacper mucha
 namespace task_6
 {
