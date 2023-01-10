@@ -1,5 +1,5 @@
 
-﻿//kacper mucha
+//kacper mucha
 namespace task_6
 {
     public static class Task6
@@ -117,18 +117,7 @@ namespace task_6
         /// <exception cref="NotImplementedException"></exception>
         public static bool IsCyclic<T>(this LinkedList<T> list)
         {
-            if (list.Count == 0)
-            {
-                return false;
-            }
-
-            var current = list.First;
-            while (current.Next != null)
-            {
-                current = current.Next;
-            }
-
-            return current.Next == list.First;
+            throw new NotImplementedException();
         }
     }
 }
